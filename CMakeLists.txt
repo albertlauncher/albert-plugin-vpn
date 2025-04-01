@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.16)
 
-find_package(Albert REQUIRED)
+project(vpn VERSION 6.1)
 
-project(vpn VERSION 6.0)
+find_package(Albert REQUIRED)
 
 file(GLOB_RECURSE I18N_SOURCES src/*)
 
