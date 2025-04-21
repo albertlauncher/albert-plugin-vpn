@@ -38,12 +38,18 @@ QStringList VpnConnectionItem::iconUrls() const
 
 QString VpnConnectionItem::inputActionText() const { return text(); }
 
+void VpnConnectionItem::addObserver(Observer *observer) { observers.insert(observer); }
+
+void VpnConnectionItem::removeObserver(Observer *observer) { observers.erase(observer); }
+
 void VpnConnectionItem::setState(State state)
 {
     if (state_ != state)
     {
         state_ = state;
         DEBG << "State changed:" << text() << stateString(state);
+        for (auto observer : observers)
+            observer->notify(this);
     }
 }
 

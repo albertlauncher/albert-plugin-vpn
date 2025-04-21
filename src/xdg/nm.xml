@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <node>
+
     <interface name="org.freedesktop.DBus.Properties">
         <signal name="PropertiesChanged">
             <arg type="s" name="interface_name"/>
@@ -46,5 +47,3 @@
     </interface>
 
 </node>
-
-

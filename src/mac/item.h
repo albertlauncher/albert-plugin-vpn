@@ -19,7 +19,6 @@ public:
 private:
 
     void setConnected(bool connect) const;
-    void updateState();
 
     class Private;
     std::unique_ptr<Private> d;

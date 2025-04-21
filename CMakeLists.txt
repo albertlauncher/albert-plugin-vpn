@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(vpn VERSION 6.1)
+project(vpn VERSION 7.0)
 
 find_package(Albert REQUIRED)
 
@@ -8,13 +8,11 @@ file(GLOB_RECURSE I18N_SOURCES src/*)
 
 albert_plugin(
     SOURCES
-        src/plugin.h
-        src/vpnconnectionitem.h
-        src/vpnconnectionitem.cpp
+        src/*.h
+        src/*.cpp
         vpn.qrc
-    INCLUDE
-        PRIVATE
-            src
+    INCLUDE PRIVATE
+        src
     I18N_SOURCES
         ${I18N_SOURCES}
     QT
@@ -22,38 +20,39 @@ albert_plugin(
 )
 
 if(APPLE)
-    target_link_libraries(${PROJECT_NAME} PRIVATE objc "-framework SystemConfiguration")
+
     #target_compile_options(${PROJECT_NAME} PRIVATE "-fobjc-arc")
-    target_include_directories(${PROJECT_NAME} PRIVATE src/mac)
-    target_sources(${PROJECT_NAME} PRIVATE
-        src/mac/plugin.cpp
-        src/mac/item.mm
-        src/mac/item.h
+
+    albert_plugin_link(PRIVATE
+        "objc"
+        "-framework SystemConfiguration"
     )
+
+    albert_plugin_include_directories(PRIVATE src/mac)
+
+    albert_plugin_sources(
+        src/mac/*.cpp
+        src/mac/*.mm
+        src/mac/*.h
+    )
+
 elseif(UNIX)
-    find_package(Qt6 6.2 REQUIRED COMPONENTS DBus)
-    target_link_libraries(${PROJECT_NAME} PRIVATE "Qt6::DBus")
 
-    # DBus interface
-    set_source_files_properties(src/xdg/NetworkManager.xml PROPERTIES NO_NAMESPACE ON)
-    set_source_files_properties(src/xdg/NetworkManager.xml PROPERTIES INCLUDE custom_types.h)
-    qt_add_dbus_interface(DBUS_SRCS src/xdg/NetworkManager.xml nm)
+    albert_plugin_link_qt(DBus VERSION 6.0 REQUIRED)
 
-    target_include_directories(${PROJECT_NAME}
-        PRIVATE
-            src/xdg  # for custom_types.h
-            ${PROJECT_BINARY_DIR}  # for the generated files
+    albert_plugin_dbus_interface(
+        XML "src/xdg/nm.xml"
+        INCLUDE "custom_types.h"
     )
-    target_sources(${PROJECT_NAME} PRIVATE
-        src/xdg/plugin.cpp
-        src/xdg/networkmanager.cpp
-        src/xdg/networkmanager.h
-        src/xdg/item.cpp
-        src/xdg/item.h
-        src/xdg/custom_types.h
-        src/xdg/NetworkManager.xml
-        ${PROJECT_BINARY_DIR}/nm.h
-        ${DBUS_SRCS}
+
+    albert_plugin_include_directories(PRIVATE
+        src/xdg  # for custom_types.h
+        ${PROJECT_BINARY_DIR}  # for the generated files
+    )
+
+    albert_plugin_sources(GLOB
+        src/xdg/*.cpp
+        src/xdg/*.h
     )
 
 endif()

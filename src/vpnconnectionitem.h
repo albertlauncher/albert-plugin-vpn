@@ -1,8 +1,10 @@
 // Copyright (c) 2023-2025 Manuel Schneider
 
 #pragma once
-#include <albert/item.h>
 #include <QCoreApplication>
+#include <albert/item.h>
+#include <albert/query.h>
+#include <set>
 
 class VpnConnectionItem : public albert::Item
 {
@@ -16,13 +18,15 @@ public:
         Connecting,
         Connected,
         Disconnecting
-    } ;
+    };
 
     static QString stateString(State state);
 
     QString subtext() const override;
     QStringList iconUrls() const override;
     QString inputActionText() const override;
+    void addObserver(albert::Item::Observer*) override;
+    void removeObserver(albert::Item::Observer*) override;
 
     State state() const;
     void setState(State state);
@@ -30,4 +34,5 @@ public:
 private:
 
     State state_;
+    std::set<albert::Item::Observer*> observers;
 };
