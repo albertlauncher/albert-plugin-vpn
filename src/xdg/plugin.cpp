@@ -4,6 +4,7 @@
 #include "networkmanager.h"
 #include <albert/logging.h>
 ALBERT_LOGGING_CATEGORY("vpn")
+using namespace albert::util;
 using namespace albert;
 using namespace std;
 
