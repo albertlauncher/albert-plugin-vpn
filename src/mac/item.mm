@@ -82,7 +82,7 @@ void SCNetworkInterfaceItem::setConnected(bool connect) const
         }
     } else {
         if (SCNetworkConnectionStop(d->connection, TRUE)) // force stop
-            INFO << QString("Successfully stopped connection: %1").arg(d->service_name);
+            INFO << QStringLiteral("Successfully stopped connection: %1").arg(d->service_name);
         else {
             auto msg = Plugin::tr("Failed disconnecting '%1': %2.")
                            .arg(d->service_name, SCErrorString(SCError()));

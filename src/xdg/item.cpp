@@ -19,11 +19,11 @@ QString VpnItem::text() const { return name; }
 vector<Action> VpnItem::actions() const
 {
     if (state() == State::Connected && active_connection)
-        return {Action("deact", Plugin::tr("Disconnect"),
+        return {Action(QStringLiteral("deact"), Plugin::tr("Disconnect"),
                        [this] { nm.deactivate(*this); })};
 
     else if (state() == State::Disconnected)
-        return {Action("act", Plugin::tr("Connect"),
+        return {Action(QStringLiteral("act"), Plugin::tr("Connect"),
                        [this] { nm.activate(*this); })};
 
     else

@@ -3,11 +3,13 @@
 #include "networkmanager.h"
 #include "vpnconnectionitem.h"
 #include <albert/logging.h>
+using namespace Qt::StringLiterals;
 using namespace albert;
 using namespace std;
-static constexpr const char *service = "org.freedesktop.NetworkManager";
-static constexpr const char *object_path_manager  = "/org/freedesktop/NetworkManager";
-static constexpr const char *object_path_settings = "/org/freedesktop/NetworkManager/Settings";
+
+static const auto service              = u"org.freedesktop.NetworkManager"_s;
+static const auto object_path_manager  = u"/org/freedesktop/NetworkManager"_s;
+static const auto object_path_settings = u"/org/freedesktop/NetworkManager/Settings"_s;
 
 
 template<typename T>
@@ -15,14 +17,14 @@ static T getNestedVariantMapValue(const NestedVariantMap &map, const QString &k1
 {
     auto it_inner_map = map.find(k1);
     if (it_inner_map == map.end())
-        throw runtime_error("");
+        throw runtime_error({});
 
     auto it_value = it_inner_map->find(k2);
     if (it_value == it_inner_map->end())
-        throw runtime_error("");
+        throw runtime_error({});
 
     if (!it_value->canConvert<T>())
-        throw runtime_error("");
+        throw runtime_error({});
 
     return it_value->value<T>();
 }
@@ -78,10 +80,14 @@ NetworkManager::NetworkManager():
 
         try
         {
-            auto name = getNestedVariantMapValue<QString>(conn_settings, "connection", "id");
-            auto type = getNestedVariantMapValue<QString>(conn_settings, "connection", "type");
+            auto name = getNestedVariantMapValue<QString>(conn_settings,
+                                                          u"connection"_s,
+                                                          u"id"_s);
+            auto type = getNestedVariantMapValue<QString>(conn_settings,
+                                                          u"connection"_s,
+                                                          u"type"_s);
 
-            if (type == "wireguard" || type == "vpn")
+            if (type == u"wireguard"_s || type == u"vpn"_s)
                 items_.emplace_back(make_shared<VpnItem>(*this, name, object_path));
         }
         catch (...)
@@ -98,8 +104,8 @@ void NetworkManager::onPropertiesChanged(const QString &interface,
                                          const QVariantMap &changed,
                                          const QStringList &)
 {
-    if (interface == IManager::staticInterfaceName())
-        if (auto it = changed.find("ActiveConnections"); it != changed.end())
+    if (interface == QString::fromUtf8(IManager::staticInterfaceName()))
+        if (auto it = changed.find(u"ActiveConnections"_s); it != changed.end())
             handleActiveConnectionsChanged(qdbus_cast<QList<QDBusObjectPath>>(*it));
 }
 
