@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(vpn VERSION 7.3)
+project(vpn VERSION 7.4)
 
 find_package(Albert REQUIRED)
 
@@ -20,20 +20,11 @@ albert_plugin(
 
 if(APPLE)
 
-    #target_compile_options(${PROJECT_NAME} PRIVATE "-fobjc-arc")
-
-    albert_plugin_link(PRIVATE
-        "objc"
-        "-framework SystemConfiguration"
-    )
+    albert_plugin_link(PRIVATE "-framework SystemConfiguration")
 
     albert_plugin_include_directories(PRIVATE src/mac)
 
-    albert_plugin_sources(
-        src/mac/*.cpp
-        src/mac/*.mm
-        src/mac/*.h
-    )
+    albert_plugin_sources(src/mac/plugin.cpp)
 
 elseif(UNIX)
 
@@ -50,8 +41,8 @@ elseif(UNIX)
     )
 
     albert_plugin_sources(GLOB
-        src/xdg/*.cpp
-        src/xdg/*.h
+        src/xdg/plugin.cpp
+        src/xdg/custom_types.h
     )
 
 endif()
