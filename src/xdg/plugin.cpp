@@ -118,10 +118,6 @@ public:
 
     void handleActiveConnectionsChanged(const QList<QDBusObjectPath> &active_connection_paths)
     {
-        CRIT << "handleActiveConnectionsChanged";
-        for (auto &active_connection_path : active_connection_paths)
-            CRIT << "-" << active_connection_path.path();
-
         // Removals
         for (auto &item : items)
             if (item->active_connection
