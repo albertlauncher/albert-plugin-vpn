@@ -4,6 +4,7 @@
     "description": "VPN connections",
     "description[de]": "VPN-Verbindungen",
     "license": "MIT",
+    "maintainers": ["@manuelschneid3r"],
     "name": "VPN",
     "name[de]": "VPN",
     "url": "https://github.com/albertlauncher/albert-plugin-vpn",
