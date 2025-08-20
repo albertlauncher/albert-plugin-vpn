@@ -1,4 +1,4 @@
-# Albert VPN plugin
+# Albert plugin: VPN
 
 Provides an item per configured VPN connection that can activate/deactivate the VPN connection.
 
