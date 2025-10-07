@@ -1,6 +1,7 @@
 // Copyright (c) 2023-2025 Manuel Schneider
 
 #include "vpnitem.h"
+#include <albert/iconutil.h>
 #include <albert/logging.h>
 using enum VpnItem::State;
 using namespace Qt::StringLiterals;
@@ -16,16 +17,16 @@ QString VpnItem::text() const { return name_; }
 
 QString VpnItem::subtext() const { return tr("VPN connection: %1").arg(trStateString(state_)); }
 
-QStringList VpnItem::iconUrls() const
+std::unique_ptr<Icon> VpnItem::icon() const
 {
     switch (state_) {
     case Connecting:
     case Disconnecting:
-        return {u":shield-half"_s};
+        return makeImageIcon(u":shield-half"_s);
     case Connected:
-        return {u":shield-full"_s};
+        return makeImageIcon(u":shield-full"_s);
     default:
-        return {u":shield-empty"_s};
+        return makeImageIcon(u":shield-empty"_s);
     }
 }
 
