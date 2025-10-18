@@ -4,13 +4,11 @@
 #include "vpnitem.h"
 #include <QApplication>
 #include <SystemConfiguration/SystemConfiguration.h>
-#include <albert/albert.h>
 #include <albert/logging.h>
 #include <albert/messagebox.h>
 ALBERT_LOGGING_CATEGORY("vpn")
 using enum VpnItem::State;
 using namespace Qt::StringLiterals;
-using namespace albert::util;
 using namespace albert;
 using namespace std;
 
