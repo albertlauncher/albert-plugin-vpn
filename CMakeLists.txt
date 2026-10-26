@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(vpn VERSION 7.6.0)
+project(vpn VERSION 7.7.0)
 
 find_package(Albert REQUIRED)
 
